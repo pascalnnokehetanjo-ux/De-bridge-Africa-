@@ -4,7 +4,7 @@ import {
   Layers, User, CheckCircle2, Star, Shield, ArrowRight, Github, 
   ExternalLink, MapPin, Calendar, Clock, DollarSign, Filter, Plus, 
   Send, ThumbsUp, Bookmark, Sparkles, AlertCircle, X, Check,
-  ChevronRight, Laptop, Award, Cpu, BookOpen
+  ChevronRight, Laptop, Award, Cpu, BookOpen, Kanban, KanbanSquare, Settings
 } from 'lucide-react';
 
 // Import generated images
@@ -27,6 +27,7 @@ const t = {
     navReviews: "Code Reviews",
     navFeed: "Community Feed",
     navProjects: "Projects & Teams",
+    navCrm: "Employer CRM",
     navProfile: "My Profile",
     ecosystemFr: "Francophone Ecosystem (Sénégal, CI, Cameroun, RDC, Maroc, Tunisie)",
     ecosystemEn: "Anglophone Ecosystem (Nigeria, Ghana, Kenya, Rwanda, South Africa)",
@@ -80,6 +81,7 @@ const t = {
     navReviews: "Revues de Code",
     navFeed: "Fil Communautaire",
     navProjects: "Projets & Équipes",
+    navCrm: "CRM Recruteur",
     navProfile: "Mon Profil",
     ecosystemFr: "Écosystème Francophone (Sénégal, CI, Cameroun, RDC, Maroc, Tunisie)",
     ecosystemEn: "Écosystème Anglophone (Nigeria, Ghana, Kenya, Rwanda, Afrique du Sud)",
@@ -133,6 +135,7 @@ const t = {
     navReviews: "Binciken Lambar Code",
     navFeed: "Dandalin Al'umma",
     navProjects: "Ayudka & Ƙungiyoyi",
+    navCrm: "CRM na Masu Aiki",
     navProfile: "Bayanan Bayanai na",
     ecosystemFr: "Yankin Faransanci (Senegal, Côte d'Ivoire, Cameroon, DRC)",
     ecosystemEn: "Yankin Turanci (Nigeria, Ghana, Kenya, Rwanda, South Africa)",
@@ -179,7 +182,7 @@ export default function App() {
   const [lang, setLang] = useState<'en' | 'fr' | 'ha'>('en');
   const [darkMode, setDarkMode] = useState(false);
   const [ecosystem, setEcosystem] = useState<'all' | 'francophone' | 'anglophone'>('all');
-  const [activeTab, setActiveTab] = useState<'home' | 'jobs' | 'mentors' | 'reviews' | 'feed' | 'projects' | 'profile'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'jobs' | 'mentors' | 'reviews' | 'feed' | 'projects' | 'crm' | 'profile'>('home');
   
   // Modal states
   const [selectedJob, setSelectedJob] = useState<any | null>(null);
@@ -192,6 +195,14 @@ export default function App() {
   const [jobSearch, setJobSearch] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('All');
   const [selectedStack, setSelectedStack] = useState('All');
+
+  // CRM Candidates Pipeline State
+  const [crmCandidates, setCrmCandidates] = useState([
+    { id: 101, name: "Kofi Mensah", role: "Senior Full-Stack", stage: "Interview", match: "98%", country: "Ghana 🇬🇭", stack: ["React", "Node.js"] },
+    { id: 102, name: "Fatou Diop", role: "Backend Engineer", stage: "Technical Review", match: "94%", country: "Senegal 🇸🇳", stack: ["Python", "Django"] },
+    { id: 103, name: "Chinedu Okafor", role: "Mobile Lead", stage: "Sourced", match: "91%", country: "Nigeria 🇳🇬", stack: ["Flutter", "GraphQL"] },
+    { id: 104, name: "Amina Benali", role: "DevOps Specialist", stage: "Offer", match: "96%", country: "Morocco 🇲🇦", stack: ["AWS", "Terraform"] }
+  ]);
 
   // Posts State
   const [posts, setPosts] = useState([
@@ -400,7 +411,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Main Top Navbar Contract (Zone 1: Brand, Zone 2: Nav Links, Zone 3: Primary Action) */}
+      {/* Main Top Navbar Contract */}
       <header className={`sticky top-0 z-40 backdrop-blur-md border-b px-6 py-4 flex items-center justify-between gap-8 ${darkMode ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-slate-200'}`}>
         
         {/* Zone 1: Brand wordmark */}
@@ -415,7 +426,7 @@ export default function App() {
         </div>
 
         {/* Zone 2: Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+        <nav className="hidden lg:flex items-center gap-5 text-sm font-medium">
           <button 
             onClick={() => setActiveTab('home')} 
             className={`transition-colors whitespace-nowrap ${activeTab === 'home' ? 'text-emerald-600 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}>
@@ -442,9 +453,9 @@ export default function App() {
             {currentDict.navFeed}
           </button>
           <button 
-            onClick={() => setActiveTab('projects')} 
-            className={`transition-colors whitespace-nowrap ${activeTab === 'projects' ? 'text-emerald-600 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}>
-            {currentDict.navProjects}
+            onClick={() => setActiveTab('crm')} 
+            className={`transition-colors whitespace-nowrap flex items-center gap-1 ${activeTab === 'crm' ? 'text-emerald-600 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}>
+            <Kanban className="w-3.5 h-3.5" /> {currentDict.navCrm}
           </button>
         </nav>
 
@@ -572,73 +583,21 @@ export default function App() {
               </div>
             </section>
 
-            {/* Pricing Section */}
-            <section className="space-y-12 pt-8">
+            {/* AEO / GEO FAQ Section */}
+            <section className="space-y-8 pt-12 border-t border-slate-200 dark:border-slate-800">
               <div className="text-center max-w-2xl mx-auto space-y-3">
-                <h2 className="text-3xl font-bold tracking-tight">{currentDict.pricingTitle}</h2>
-                <p className="text-sm text-slate-600 dark:text-slate-400">{currentDict.pricingSub}</p>
+                <h2 className="text-3xl font-bold tracking-tight">Frequently Asked Questions</h2>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Everything you need to know about DevBridge Africa and our technical network.</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Free Tier */}
-                <div className={`p-8 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} flex flex-col justify-between`}>
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">{currentDict.pricingFreeTitle}</h3>
-                    <p className="text-xs text-slate-500">{currentDict.pricingFreeDesc}</p>
-                    <p className="text-3xl font-extrabold font-mono">{currentDict.pricingFreePrice}</p>
-                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300 pt-4 border-t border-slate-200 dark:border-slate-800">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Public community feed</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Basic profile & GitHub sync</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Apply to standard job posts</li>
-                    </ul>
-                  </div>
-                  <button 
-                    onClick={() => setActiveTab('profile')}
-                    className="w-full mt-8 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
-                    {currentDict.getStarted}
-                  </button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className={`p-6 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} space-y-2`}>
+                  <h3 className="font-bold text-base">How does DevBridge connect Francophone and Anglophone developers?</h3>
+                  <p className="text-sm text-slate-500">Our platform supports both ecosystems natively with automatic translation of community posts and bilingual job postings across West, East, North, and South Africa.</p>
                 </div>
-
-                {/* Pro Tier */}
-                <div className={`p-8 rounded-2xl border-2 border-emerald-500 ${darkMode ? 'bg-slate-900' : 'bg-white'} flex flex-col justify-between relative shadow-xl`}>
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    Most Popular
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">{currentDict.pricingProTitle}</h3>
-                    <p className="text-xs text-slate-500">{currentDict.pricingProDesc}</p>
-                    <p className="text-3xl font-extrabold font-mono text-emerald-600">{currentDict.pricingProPrice}</p>
-                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300 pt-4 border-t border-slate-200 dark:border-slate-800">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Priority job matching</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> 2 free expert code reviews/mo</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Verified badge on profile</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> 1:1 mentor session discounts</li>
-                    </ul>
-                  </div>
-                  <button 
-                    onClick={() => triggerToast("Pro membership activated in sandbox mode!")}
-                    className="w-full mt-8 py-3 rounded-xl bg-emerald-600 text-white font-semibold text-sm hover:bg-emerald-500 shadow-md">
-                    {currentDict.subscribe}
-                  </button>
-                </div>
-
-                {/* Employer Tier */}
-                <div className={`p-8 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} flex flex-col justify-between`}>
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold">{currentDict.pricingEmployerTitle}</h3>
-                    <p className="text-xs text-slate-500">{currentDict.pricingEmployerDesc}</p>
-                    <p className="text-3xl font-extrabold font-mono">{currentDict.pricingEmployerPrice}</p>
-                    <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300 pt-4 border-t border-slate-200 dark:border-slate-800">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Vetted African developer database</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Bilingual job board posting</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> Technical screening support</li>
-                    </ul>
-                  </div>
-                  <button 
-                    onClick={() => setShowJobModal(true)}
-                    className="w-full mt-8 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
-                    {currentDict.hireTalent}
-                  </button>
+                <div className={`p-6 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} space-y-2`}>
+                  <h3 className="font-bold text-base">How are developers vetted on the platform?</h3>
+                  <p className="text-sm text-slate-500">Developers verify their identity and skills through GitHub activity sync, completed open-source contributions, and mentor-endorsed code reviews.</p>
                 </div>
               </div>
             </section>
@@ -654,13 +613,11 @@ export default function App() {
                 <h2 className="text-2xl font-bold tracking-tight">{currentDict.navJobs}</h2>
                 <p className="text-sm text-slate-500">Discover vetted full-time roles, remote gigs, and freelance contracts.</p>
               </div>
-              <div className="flex items-center gap-3">
-                <button 
-                  onClick={() => setShowJobModal(true)}
-                  className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-500 flex items-center gap-1.5 shadow-sm">
-                  <Plus className="w-4 h-4" /> {currentDict.postJob}
-                </button>
-              </div>
+              <button 
+                onClick={() => setShowJobModal(true)}
+                className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-500 flex items-center gap-1.5 shadow-sm">
+                <Plus className="w-4 h-4" /> {currentDict.postJob}
+              </button>
             </div>
 
             {/* Filter Bar */}
@@ -729,9 +686,7 @@ export default function App() {
                     <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
                       <span className="text-sm font-bold font-mono text-emerald-600">{job.salary}</span>
                       <button 
-                        onClick={() => {
-                          setSelectedJob(job);
-                        }}
+                        onClick={() => setSelectedJob(job)}
                         className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-500 shadow-sm">
                         {currentDict.applyNow}
                       </button>
@@ -897,51 +852,59 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 6: PROJECTS & TEAMS */}
-        {activeTab === 'projects' && (
+        {/* TAB 6: EMPLOYER CRM / TALENT PIPELINE */}
+        {activeTab === 'crm' && (
           <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight">{currentDict.navProjects}</h2>
-                <p className="text-sm text-slate-500">Collaborate on pan-African open-source projects and startup MVP teams.</p>
+                <h2 className="text-2xl font-bold tracking-tight">Employer Talent CRM & Pipeline</h2>
+                <p className="text-sm text-slate-500">Track and manage vetted African developer applications across recruitment stages.</p>
               </div>
-              <button onClick={() => triggerToast("Project creation flow opened!")} className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-500">
-                Create Project
+              <button 
+                onClick={() => triggerToast("Candidate invite link generated!")}
+                className="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-500 flex items-center gap-1.5 shadow-sm">
+                <Plus className="w-4 h-4" /> Sourced Candidate
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className={`p-6 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} space-y-4 shadow-sm`}>
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-lg">AfriHealth Telemed Open Source</h3>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-600">Active</span>
-                </div>
-                <p className="text-sm text-slate-500">Building an offline-first doctor consultation app for rural clinics across West and East Africa.</p>
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800">React Native</span>
-                  <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800">Node.js</span>
-                  <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800">PostgreSQL</span>
-                </div>
-                <button onClick={() => triggerToast("Joined project team successfully!")} className="w-full py-2.5 rounded-xl border border-emerald-600 text-emerald-600 font-semibold text-xs hover:bg-emerald-50 dark:hover:bg-slate-800">
-                  Join Team
-                </button>
-              </div>
+            {/* CRM Kanban / Pipeline View */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              {['Sourced', 'Technical Review', 'Interview', 'Offer'].map(stage => (
+                <div key={stage} className={`p-4 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} space-y-4`}>
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                    <h3 className="font-bold text-sm">{stage}</h3>
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 font-mono">
+                      {crmCandidates.filter(c => c.stage === stage).length}
+                    </span>
+                  </div>
 
-              <div className={`p-6 rounded-2xl border ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} space-y-4 shadow-sm`}>
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-lg">UEMOA / CEMAC Cross-Border Pay API</h3>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950 text-amber-600">Recruiting</span>
+                  <div className="space-y-3">
+                    {crmCandidates
+                      .filter(c => c.stage === stage)
+                      .map(candidate => (
+                        <div key={candidate.id} className={`p-4 rounded-xl border ${darkMode ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-300'} space-y-3`}>
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-bold text-sm">{candidate.name}</h4>
+                            <span className="text-xs font-mono text-emerald-600 font-bold">{candidate.match} Match</span>
+                          </div>
+                          <p className="text-xs text-slate-500">{candidate.role} · {candidate.country}</p>
+                          <div className="flex flex-wrap gap-1">
+                            {candidate.stack.map(s => (
+                              <span key={s} className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-100 dark:bg-emerald-950 text-emerald-600">
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                          <button 
+                            onClick={() => triggerToast(`Sent interview invite to ${candidate.name}!`)}
+                            className="w-full py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-500">
+                            Schedule Interview
+                          </button>
+                        </div>
+                    ))}
+                  </div>
                 </div>
-                <p className="text-sm text-slate-500">Unified SDK for mobile money integration across Francophone African central banks.</p>
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800">TypeScript</span>
-                  <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800">Go</span>
-                  <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 dark:bg-slate-800">Docker</span>
-                </div>
-                <button onClick={() => triggerToast("Joined project team successfully!")} className="w-full py-2.5 rounded-xl border border-emerald-600 text-emerald-600 font-semibold text-xs hover:bg-emerald-50 dark:hover:bg-slate-800">
-                  Join Team
-                </button>
-              </div>
+              ))}
             </div>
           </div>
         )}

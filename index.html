@@ -4,18 +4,80 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevBridge Africa — Jobs, Mentors & Code Reviews for African Developers</title>
-    <meta name="description" content="Where African developers find jobs, mentors, code reviews, and local tech opportunities in English, French, and Hausa." />
-    <meta property="og:title" content="DevBridge Africa" />
-    <meta property="og:description" content="Where African developers find jobs, mentors, code reviews, and local tech opportunities." />
+    <meta name="description" content="Where African developers find jobs, mentors, code reviews, and local tech opportunities in English, French, and Hausa across Francophone and Anglophone Africa." />
+    
+    <!-- OpenGraph & Social Cards -->
+    <meta property="og:title" content="DevBridge Africa — Tech Jobs, Mentors & Code Reviews" />
+    <meta property="og:description" content="Connecting African software engineers with top remote jobs, mentors, and code reviews in English, French, and Hausa." />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="fr_FR" />
+    <meta property="og:locale:alternate" content="ha_NG" />
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DevBridge Africa" />
+    <meta name="twitter:description" content="Where African developers find jobs, mentors, code reviews, and local tech opportunities." />
+
+    <!-- Multilingual AEO / GEO Alternates -->
+    <link rel="alternate" hreflang="en" href="https://devbridge.africa/" />
+    <link rel="alternate" hreflang="fr" href="https://devbridge.africa/fr" />
+    <link rel="alternate" hreflang="ha" href="https://devbridge.africa/ha" />
+    <link rel="alternate" hreflang="x-default" href="https://devbridge.africa/" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD Structured Data for AEO / GEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "DevBridge Africa",
+      "url": "https://devbridge.africa",
+      "logo": "https://devbridge.africa/logo.png",
+      "sameAs": [
+        "https://twitter.com/devbridgeafrica",
+        "https://github.com/devbridgeafrica"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+234-800-DEVBRIDGE",
+        "contactType": "customer support",
+        "areaServed": ["SN", "CI", "CM", "CD", "MA", "TN", "NG", "GH", "KE", "RW", "ZA"],
+        "availableLanguage": ["English", "French", "Hausa"]
+      },
+      "description": "Bilingual and trilingual professional platform connecting African software developers with jobs, mentorship, and expert code reviews."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does DevBridge Africa support Francophone and Anglophone developers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "DevBridge Africa provides a dual-ecosystem platform with first-class support for English, French, and Hausa, matching developers in Senegal, Côte d'Ivoire, Cameroon, Nigeria, Kenya, and beyond with remote and local opportunities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do expert code reviews work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Developers submit a GitHub pull request URL and select a review category such as architecture, security, or performance. Senior African engineers review the code and deliver comprehensive reports and scores."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
